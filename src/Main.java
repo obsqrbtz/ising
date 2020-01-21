@@ -32,7 +32,7 @@ class Ising{
         double neighbors;
         neighbors = lattice[(i - 1 + N) % N][j] + lattice[(i + 1) % N][j] +
             lattice[i][(j + 1) % N] + lattice[i][(j - 1 + N) % N];
-        return -J * lattice[i][j] * neighbors / 2 - h * lattice[i][j];
+        return -J * lattice[i][j] * neighbors - h * lattice[i][j];
     }
     double Hamiltonian (){
         double H = 0;
@@ -76,7 +76,7 @@ class Ising{
 
 class Gui {
     Ising M, tempState;
-    int N = 100, J = 1, scale = 5;
+    int N = 100, J = -1, scale = 5;
     double H = 0;
     class DisplayGraphics extends JComponent {
         public void paintComponent(Graphics g) {
@@ -87,6 +87,9 @@ class Gui {
                     if(M.lattice[i][j] == 1) g.fillRect(i * scale, j * scale, scale, scale);
                 }
             }
+            double Emax = (4 + Math.abs(M.h)) * N * N, Ecurrent = M.Hamiltonian(), Enormalized = Ecurrent / Emax;
+            g.setFont(new Font("Helvetica Neue", Font.PLAIN, 18));
+            g.drawString("H: " + Enormalized,N * scale + 5,20);
         }
     }
 
@@ -95,7 +98,7 @@ class Gui {
         JPanel mainPanel = new JPanel(new FlowLayout());
         DisplayGraphics displayState = new DisplayGraphics();
         mainPanel.add(displayState);
-        frame.setSize(500, 520);
+        frame.setSize(700, 520);
         frame.add(new DisplayGraphics());
         frame.setVisible(true);
 // Start simulation

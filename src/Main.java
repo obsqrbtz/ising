@@ -83,7 +83,7 @@ class Gui {
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.setColor(new Color(198, 200, 238));
-            g.fillRect(0, 0, 510, 535);
+            g.fillRect(0, 0, 500, 520);
             for(int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
                     g.setColor(new Color(154, 149, 183));
@@ -106,7 +106,7 @@ class Gui {
         JPanel mainPanel = new JPanel(new FlowLayout());
         DisplayGraphics displayState = new DisplayGraphics();
         mainPanel.add(displayState);
-        frame.setSize(510, 535);
+        frame.setSize(500, 520);
         frame.add(new DisplayGraphics());
         frame.setVisible(true);
 // Start simulation

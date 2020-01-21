@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.text.CollationKey;
 import java.util.Random;
 
 class Ising{
@@ -81,15 +82,22 @@ class Gui {
     class DisplayGraphics extends JComponent {
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            setBackground(Color.WHITE);
+            g.setColor(new Color(198, 200, 238));
+            g.fillRect(0, 0, 510, 535);
             for(int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
+                    g.setColor(new Color(154, 149, 183));
                     if(M.lattice[i][j] == 1) g.fillRect(i * scale, j * scale, scale, scale);
                 }
             }
             double Emax = (4 + Math.abs(M.h)) * N * N, Ecurrent = M.Hamiltonian(), Enormalized = Ecurrent / Emax;
-            g.setFont(new Font("Helvetica Neue", Font.PLAIN, 18));
-            g.drawString("H: " + Enormalized,N * scale + 5,20);
+            int alpha = 200;
+            Color textbg = new Color(163, 11, 55, alpha);
+            g.setColor(textbg);
+            g.fillRect(0, 470, 500, 30);
+            g.setColor(new Color(252, 252, 255));
+            g.setFont(new Font("Helvetica Neue", Font.BOLD, 16));
+            g.drawString("H: " + Enormalized,20,489);
         }
     }
 
@@ -98,7 +106,7 @@ class Gui {
         JPanel mainPanel = new JPanel(new FlowLayout());
         DisplayGraphics displayState = new DisplayGraphics();
         mainPanel.add(displayState);
-        frame.setSize(700, 520);
+        frame.setSize(510, 535);
         frame.add(new DisplayGraphics());
         frame.setVisible(true);
 // Start simulation

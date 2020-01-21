@@ -7,13 +7,13 @@ class Ising{
     int N;
     double h, J;
     Random rnd;
-    public Ising(int n, double j_, double h_){
+    public Ising(int n, double j_, double h_, double positivePercentage){
         lattice = new int[n][n];
         N = n;
         h = h_;
         J = j_;
         rnd = new Random();
-        generateLattice(0.5);
+        generateLattice(positivePercentage);
     }
     void generateLattice(double positivePercentage){
         for (int i = 0; i < N; i++){
@@ -46,7 +46,7 @@ class Ising{
             for (int j = 0; j < N; j++) lattice[i][j] = src.lattice[i][j];
     }
     Ising newState(){
-        Ising upd = new Ising(N, J, h);
+        Ising upd = new Ising(N, J, h, 0.5);
         upd.copyLattice(this);
         upd.lattice[rnd.nextInt(N)][rnd.nextInt(N)] *= -1;
         return upd;
@@ -78,15 +78,14 @@ class Gui {
         frame.add(new DisplayGraphics());
         frame.setVisible(true);
 // Start simulation
-        M = new Ising(N, J, H);
-        tempState = new Ising(N, J, H);
-        double T = 1.0, delta, ECurrent = 0;
+        M = new Ising(N, J, H, 0.5);
+        tempState = new Ising(N, J, H, 0.5);
+        double T = 1.0, delta, ECurrent;
         while (true) {
             ECurrent = M.Hamiltonian();
             delta = tempState.Hamiltonian() - ECurrent;
             if (delta < 0) M.copyLattice(tempState);
-            else if (M.rnd.nextDouble() < M.getProbability(delta, T))
-                M.copyLattice(tempState);
+            else if (M.rnd.nextDouble() < Ising.getProbability(delta, T)) M.copyLattice(tempState);
             tempState.copyLattice(M.newState());
             frame.repaint();
         }

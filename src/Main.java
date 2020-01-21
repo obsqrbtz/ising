@@ -76,7 +76,7 @@ class Ising{
 
 class Gui {
     Ising M, tempState;
-    int N = 100, J = -1, scale = 5;
+    int N = 100, J = 1, scale = 5;
     double H = 0;
     class DisplayGraphics extends JComponent {
         public void paintComponent(Graphics g) {

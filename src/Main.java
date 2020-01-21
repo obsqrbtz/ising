@@ -4,7 +4,7 @@ import java.util.Random;
 
 class Ising{
     int [][] lattice;
-    int N;
+    int N, iCurrent, jCurrent;
     double h, J;
     Random rnd;
     public Ising(int n, double j_, double h_, double positivePercentage){
@@ -14,6 +14,8 @@ class Ising{
         J = j_;
         rnd = new Random();
         generateLattice(positivePercentage);
+        iCurrent = rnd.nextInt(N);
+        jCurrent = rnd.nextInt(N);
     }
     void generateLattice(double positivePercentage){
         for (int i = 0; i < N; i++){
@@ -48,7 +50,26 @@ class Ising{
     Ising newState(){
         Ising upd = new Ising(N, J, h, 0.5);
         upd.copyLattice(this);
-        upd.lattice[rnd.nextInt(N)][rnd.nextInt(N)] *= -1;
+        int neighbor = rnd.nextInt(4);
+        switch (neighbor){
+            case 0:
+                iCurrent = (iCurrent - 1 + N) % N;
+                upd.lattice[iCurrent][jCurrent] *= -1;
+                break;
+            case 1:
+                iCurrent = (iCurrent + 1) % N;
+                upd.lattice[iCurrent][jCurrent] *= -1;
+                break;
+            case 2:
+                jCurrent = (jCurrent - 1 + N) % N;
+                upd.lattice[iCurrent][jCurrent] *= -1;
+                break;
+            case 3:
+                jCurrent = (jCurrent + 1) % N;
+                upd.lattice[iCurrent][jCurrent] *= -1;
+                break;
+        }
+        //upd.lattice[rnd.nextInt(N)][rnd.nextInt(N)] *= -1;
         return upd;
     }
 }

@@ -98,10 +98,10 @@ class Gui {
             int alpha = 200;
             Color textbg = new Color(163, 11, 55, alpha);
             g.setColor(textbg);
-            g.fillRect(0, height - 50, width, 50);
+            g.fillRect(0, height - 75, width, 50);
             g.setColor(new Color(252, 252, 255));
             g.setFont(new Font("Helvetica Neue", Font.BOLD, 16));
-            g.drawString("H: " + Enormalized,10,height - 30);
+            g.drawString("H: " + Enormalized,10,height - 50);
         }
     }
 
@@ -111,7 +111,7 @@ class Gui {
         DisplayGraphics displayState = new DisplayGraphics();
         mainPanel.add(displayState);
         frame.setSize(500, 500);
-        frame.setResizable(false);
+        //frame.setResizable(false);
         frame.add(new DisplayGraphics());
         frame.setVisible(true);
 // Start simulation

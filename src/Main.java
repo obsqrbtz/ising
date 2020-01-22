@@ -98,10 +98,10 @@ class Gui {
             int alpha = 200;
             Color textbg = new Color(163, 11, 55, alpha);
             g.setColor(textbg);
-            g.fillRect(0, height - 75, width, 50);
+            g.fillRect(0, height - 70, width, 50);
             g.setColor(new Color(252, 252, 255));
             g.setFont(new Font("Helvetica Neue", Font.BOLD, 16));
-            g.drawString("H: " + Enormalized,10,height - 50);
+            g.drawString("H: " + Enormalized,10,height - 40);
         }
     }
 

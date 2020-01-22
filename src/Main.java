@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.text.CollationKey;
 import java.util.Random;
 
 class Ising{
@@ -77,7 +76,7 @@ class Ising{
 
 class Gui {
     Ising M, tempState;
-    int N = 100, J = 1, scale, width, height;
+    int N = 150, J = 1, scale, width, height;
     double H = 0;
     JFrame frame;
     class DisplayGraphics extends JComponent {

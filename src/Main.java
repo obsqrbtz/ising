@@ -69,7 +69,6 @@ class Ising{
                 upd.lattice[iCurrent][jCurrent] *= -1;
                 break;
         }
-        //upd.lattice[rnd.nextInt(N)][rnd.nextInt(N)] *= -1;
         return upd;
     }
 }
@@ -79,11 +78,19 @@ class Gui {
     int N = 150, J = 1, scale, width, height;
     double H = 0;
     JFrame frame;
+    JPanel mainPanel;
     class DisplayGraphics extends JComponent {
+        DisplayGraphics(){
+            width = mainPanel.getWidth();
+            height = mainPanel.getHeight();
+            setPreferredSize(new Dimension(width, height));
+        }
         public void paintComponent(Graphics g) {
-            width = frame.getWidth();
-            height = frame.getHeight();
-            scale = (int)Math.round(Math.sqrt((double)width * height / (N * N)) + 0.5);
+            scale = (int)Math.round(Math.sqrt((double)(width * height / (N * N))));
+            width = height = scale * N;
+            mainPanel.setSize(new Dimension(width, height));
+            setPreferredSize(new Dimension(width, height));
+            frame.setSize(new Dimension(width, height));
             super.paintComponent(g);
             g.setColor(new Color(198, 200, 238));
             g.fillRect(0, 0, width, height);
@@ -106,12 +113,11 @@ class Gui {
 
     public void start() {
         frame = new JFrame();
-        JPanel mainPanel = new JPanel(new FlowLayout());
-        DisplayGraphics displayState = new DisplayGraphics();
-        mainPanel.add(displayState);
-        frame.setSize(500, 500);
-        //frame.setResizable(false);
-        frame.add(new DisplayGraphics());
+        mainPanel = new JPanel(new GridLayout());
+        mainPanel.setSize(new Dimension(500, 500));
+        mainPanel.add(new DisplayGraphics());
+        frame.add(mainPanel);
+        frame.pack();
         frame.setVisible(true);
 // Start simulation
         M = new Ising(N, J, H, 0.5);

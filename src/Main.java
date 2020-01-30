@@ -7,7 +7,7 @@ class Ising{
     int N, iCurrent, jCurrent;
     double h, J;
     Random rnd;
-    public Ising(int n, double j_, double h_, double positivePercentage){
+    Ising(int n, double j_, double h_, double positivePercentage){
         lattice = new int[n][n];
         N = n;
         h = h_;
@@ -17,12 +17,12 @@ class Ising{
         iCurrent = rnd.nextInt(N);
         jCurrent = rnd.nextInt(N);
     }
-    void generateLattice(double positivePercentage){
+    private void generateLattice(double positivePercentage){
         for (int i = 0; i < N; i++){
             for (int j = 0; j < N; j++){
                 if (rnd.nextDouble() < positivePercentage) lattice[i][j] = 1;
                 else lattice[i][j] = -1;
-             }
+            }
         }
     }
     static double getProbability(double delta, double T){
@@ -31,7 +31,7 @@ class Ising{
     double E (int i, int j){
         double neighbors;
         neighbors = lattice[(i - 1 + N) % N][j] + lattice[(i + 1) % N][j] +
-            lattice[i][(j + 1) % N] + lattice[i][(j - 1 + N) % N];
+                lattice[i][(j + 1) % N] + lattice[i][(j - 1 + N) % N];
         return -J * lattice[i][j] * neighbors - h * lattice[i][j];
     }
     double Hamiltonian (){
@@ -74,11 +74,10 @@ class Ising{
 }
 
 class Gui {
-    Ising M, tempState;
-    int N = 150, J = 1, scale, width, height;
-    double H = 0;
-    JFrame frame;
-    JPanel mainPanel;
+    private Ising M;
+    private int N = 150, width, height;
+    private JFrame frame;
+    private JPanel mainPanel;
     class DisplayGraphics extends JComponent {
         DisplayGraphics(){
             width = mainPanel.getWidth();
@@ -86,7 +85,7 @@ class Gui {
             setPreferredSize(new Dimension(width, height));
         }
         public void paintComponent(Graphics g) {
-            scale = (int)Math.round(Math.sqrt((double)(width * height / (N * N))));
+            int scale = (int)Math.round(Math.sqrt((double)(width * height / (N * N))));
             width = height = scale * N;
             mainPanel.setSize(new Dimension(width, height));
             setPreferredSize(new Dimension(width, height));
@@ -111,7 +110,7 @@ class Gui {
         }
     }
 
-    public void start() {
+    void start() {
         frame = new JFrame();
         mainPanel = new JPanel(new GridLayout());
         mainPanel.setSize(new Dimension(500, 500));
@@ -120,9 +119,10 @@ class Gui {
         frame.pack();
         frame.setVisible(true);
 // Start simulation
+        int J = 1;
+        double T = 1.0, delta, ECurrent, H = 0;
         M = new Ising(N, J, H, 0.5);
-        tempState = new Ising(N, J, H, 0.5);
-        double T = 1.0, delta, ECurrent;
+        Ising tempState = new Ising(N, J, H, 0.5);
         while (true) {
             ECurrent = M.Hamiltonian();
             delta = tempState.Hamiltonian() - ECurrent;

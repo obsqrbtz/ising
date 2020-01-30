@@ -28,7 +28,7 @@ class Ising{
     static double getProbability(double delta, double T){
         return Math.exp(-delta / T);
     }
-    double E (int i, int j){
+    private double E (int i, int j){
         double neighbors;
         neighbors = lattice[(i - 1 + N) % N][j] + lattice[(i + 1) % N][j] +
                 lattice[i][(j + 1) % N] + lattice[i][(j - 1 + N) % N];

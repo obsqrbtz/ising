@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Random;
 
 class Ising{
@@ -75,9 +77,17 @@ class Ising{
 
 class Gui {
     private Ising M;
-    private int N = 150, width, height;
+    private int N = 100, width, height;
     private JFrame frame;
     private JPanel mainPanel;
+    private boolean toggleSimulation;
+    class SpacebarListener implements KeyListener{
+        public void keyTyped(KeyEvent e){}
+        public void keyReleased(KeyEvent e){}
+        public void keyPressed(KeyEvent e){
+            if(e.getKeyCode() == KeyEvent.VK_SPACE) toggleSimulation = !toggleSimulation;
+        }
+    }
     class DisplayGraphics extends JComponent {
         DisplayGraphics(){
             width = mainPanel.getWidth();
@@ -123,7 +133,17 @@ class Gui {
         double T = 1.0, delta, ECurrent, H = 0;
         M = new Ising(N, J, H, 0.5);
         Ising tempState = new Ising(N, J, H, 0.5);
+        toggleSimulation = true;
+        frame.addKeyListener(new SpacebarListener());
         while (true) {
+            while (!toggleSimulation){
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (toggleSimulation) break;
+            }
             ECurrent = M.Hamiltonian();
             delta = tempState.Hamiltonian() - ECurrent;
             if (delta < 0) M.copyLattice(tempState);

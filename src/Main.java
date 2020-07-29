@@ -128,6 +128,7 @@ class Gui {
         frame.add(mainPanel);
         frame.pack();
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 // Start simulation
         int J = 1;
         double T = 1.0, delta, ECurrent, H = 0;

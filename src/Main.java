@@ -93,7 +93,7 @@ class Gui {
             setPreferredSize(new Dimension(width, height));
         }
         public void paintComponent(Graphics g) {
-            int scale = (int)Math.round(Math.sqrt((double)(width * height / (N * N))));
+            int scale = (int)Math.round(Math.sqrt((double)(width * height) / (N * N)));
             width = height = scale * N;
             mainPanel.setSize(new Dimension(width, height));
             setPreferredSize(new Dimension(width, height));

@@ -7,7 +7,7 @@ import java.util.Random;
 class Ising{
     int [][] lattice;
     int N, iCurrent, jCurrent;
-    double h, J;
+    double h, J, delta;
     Random rnd;
     Ising(int n, double j_, double h_, double positivePercentage){
         lattice = new int[n][n];
@@ -56,21 +56,19 @@ class Ising{
         switch (neighbor){
             case 0:
                 iCurrent = (iCurrent - 1 + N) % N;
-                upd.lattice[iCurrent][jCurrent] *= -1;
                 break;
             case 1:
                 iCurrent = (iCurrent + 1) % N;
-                upd.lattice[iCurrent][jCurrent] *= -1;
                 break;
             case 2:
                 jCurrent = (jCurrent - 1 + N) % N;
-                upd.lattice[iCurrent][jCurrent] *= -1;
                 break;
             case 3:
                 jCurrent = (jCurrent + 1) % N;
-                upd.lattice[iCurrent][jCurrent] *= -1;
                 break;
         }
+        upd.lattice[iCurrent][jCurrent] *= -1;
+        delta = -2 * E(iCurrent, jCurrent);
         return upd;
     }
 }
@@ -131,7 +129,7 @@ class Gui {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 // Start simulation
         int J = 1;
-        double T = 1.0, delta, ECurrent, H = 0;
+        double T = 1.0, delta, H = 0;
         M = new Ising(N, J, H, 0.5);
         Ising tempState = new Ising(N, J, H, 0.5);
         toggleSimulation = true;
@@ -145,8 +143,7 @@ class Gui {
                 }
                 if (toggleSimulation) break;
             }
-            ECurrent = M.Hamiltonian();
-            delta = tempState.Hamiltonian() - ECurrent;
+            delta = M.delta;
             if (delta < 0) M.copyLattice(tempState);
             else if (M.rnd.nextDouble() < Ising.getProbability(delta, T)) M.copyLattice(tempState);
             tempState.copyLattice(M.newState());
